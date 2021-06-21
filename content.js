@@ -2293,8 +2293,7 @@ function highlight () {
         }*/
             
 
-          if ( words.indexOf( matched ) >= 0  && (temp_male_words.indexOf(matched) >= 0) && highlighting === true && excluded.indexOf(matched) === -1 ) {
-          //if ( words.indexOf( matched ) >= 0 && (all_male_words.indexOf(matched) >= 0) && highlighting === true ) {
+          if ( words.indexOf( matched ) >= 0  && (temp_male_words.indexOf(matched) >= 0) && highlighting == true && excluded.indexOf(matched) === -1 ) {
                 var i = words.indexOf(matched, start);
                 start = i + 1;
                 console.log("Previous word", words[i-1]);
@@ -2346,11 +2345,11 @@ function highlight () {
                 else if (i !== 0 && (words[i - 1] === 'Ms' || words[i - 1] === 'Mrs' || words[i - 1] === 'Miss' || femalefirstnames.indexOf(words[i-1]) >= 0 ))
                     return '<span class="makeitshe ignore-css replacement" name="femalehighlight">' + matched +  '</span><span class="ignore-css tooltiptext">' + matched +  '</span></span>';
                 else
-                    return '<span class="makeitshe ignore-css replacement" name="malehighlight">' + matched +  '</span><span class="ignore-css tooltiptext">' + matched +  '</span></span>';
+                    return '<span class="ignore-css replacement" name="malehighlight">' + matched + '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
 
             }
           
-            else if (words.indexOf( matched ) >= 0 && (temp_female_words.indexOf(matched) >= 0) && highlighting === true && excluded.indexOf(matched) === -1 ) {
+            else if (words.indexOf( matched ) >= 0 && (temp_female_words.indexOf(matched) >= 0) && highlighting == true && excluded.indexOf(matched) === -1 ) {
             //if ( words.indexOf( matched ) >= 0 && (all_female_words.indexOf(matched) >= 0) && highlighting === true ) {
                 var i = words.indexOf(matched, start);
                 console.log(matched);
@@ -2399,9 +2398,9 @@ function highlight () {
                     return '<span class="makeitshe ignore-css replacement" name="malehighlight">' + matched +  '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
                 else
                     //return matched;
-                    return '<span class="makeitshe ignore-css replacement" name="femalehighlight">' + matched + '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
+                    return '<span class="ignore-css replacement" name="femalehighlight">' + matched + '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
 
-            } 
+            }
             
             else {
 
@@ -2954,8 +2953,9 @@ chrome.runtime.onMessage.addListener(
                 "from a content script:" + sender.tab.url :
                 "from the extension");
     if (request.greeting == "nohighlighting"){
-      highlighting = false;
-      highlight();
+        alert("yes")
+      highlighting = true;
+      //highlight();
       $(window).unbind('scroll');
       hideHighlighting();
       hideFrames();
