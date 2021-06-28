@@ -87,22 +87,6 @@ function changeLang(word_dict) {
     all_female_words = Object.values (word_dict);
 }
 
-/*function recalculateP(lang) {
-  if (lang === "English") {
-      word_dict = window.english_word_dict;
-  } else if (lang === "German") {
-      word_dict = window.german_word_dict;
-  } else {
-      Error; //other languages must be filled in here once available
-  }
-  all_words = Object.assign( {}, name_dict, word_dict );
-  regex_word = new RegExp( "\\b" + Object.keys( word_dict ).join("\\b|\\b"), "gi" );
-  regex_name = new RegExp( "\\b" + Object.keys( name_dict ).join("|"), "g" );
-  all_male_words = Object.keys( word_dict).concat( Object.keys( name_dict ) );;
-  all_female_words = Object.values( word_dict ).concat( Object.values( name_dict ) );;
-  applyContent();
-}*/
-
 let language = 'English';
 chrome.storage.sync.get('language', data => {
   languageDict(data.language);
@@ -330,134 +314,23 @@ function applyContent (windowObject) {
     if ( window.isDone ) return;
 
     $(windowObject).find("a, p, i, div,span, h1, h2, h3, h4, h5, li, label").contents().filter( function () {
-    //$(windowObject).contents().filter( function () {
-
-        /*if (this.parentNode.nodeName === "SCRIPT" || this.parentNode.nodeName ==="STYLE" || this.parentNode.nodeName === "IMG"
-            || this.parentNode.nodeName === "LI" || this.parentNode.nodeName === "UL" || this.parentNode.nodeName === "IFRAME"
-            || this.parentNode.nodeName === "NOSCRIPT" || this.parentNode.nodeName === "CITE"){
-            return false;
-        }*/
         
         var res = [];
         var res1 = [];
         if (this.nodeType === 3)
         {
-        
-            /*var parentTag = this.parentNode.tagName;
-            if (parentTag === 'H1' || parentTag === 'H2' || parentTag === 'H3' || parentTag === 'H4' || parentTag === 'H5') {
-                return false;
-            }*/
-            
-            /*if (this.parentNode.nodeName === "A") {
-                if (this.nodeValue.length < 3) {
-                }
-                else {
-                    return false;
-                }
-            }
-            
-            if (this.parentNode.parentNode.nodeName === "LI" || this.parentNode.parentNode.parentNode.nodeName === "LI"){
-                return false;
-            }
-            
-            var outertag = this.parentNode.outerHTML;
-            outertag = outertag.substring(0, outertag.indexOf('>'));
-            res = outertag.match(strip);
-            
-            var outertag1 = this.parentNode.parentNode.outerHTML;
-            outertag1 = outertag1.substring(0, outertag1.indexOf('>'));
-            res1 = outertag1.match(strip);
-            
-            if (Array.isArray(res1) && res1.length > 0){
-                
-                return false;
-            }*/
         }
         else {
             return false;
         }
-        
-        /*if (Array.isArray(res) && res.length > 0) {
-            return false;
-        }*/
 
         return true;
         
         
-        
-        //return this.nodeType === 3 && this.id !== 'adContent' && this.id !== 'dockedBanner' && this.id !== 'google_image_div';
-
     }).replaceWith( function () {
 
-        /*var str = this.nodeValue;
-        var temp_words = str.split(/('|-|:|;|\/|\s+)/);
-        var words = [];
-
-        for ( var i = 0; i < temp_words.length; i ++ ) {
-
-            var current_word = temp_words[i].trim().replace( /[.,\/#!$%\^&\*;:{}=\_`'"?~()]/g, "" );
-
-            if ( current_word != '' ) {
-
-                words[ words.length ] = current_word;
-
-            }
-
-        }
-
-        if ( words.length == 0 ) {
-
-            return str;
-
-        }
-
-        // Delete surname after Mr, Ms, M, Mme, Lady, Lord
-
-        for ( var i = 0; i < words.length; i ++ ) {
-
-            var w = words[ i ].replace( /[!?,.;`' ]/, '' );
-
-            if ( w === 'Mr' || w === 'Ms' || w === 'M' || w === 'Mme' || w === 'Lady' || w === 'Lord' ) {
-
-                words.splice( i + 1, 1 );
-
-            }
-
-        }
-        
-        for ( var i = 0; i < words.length; i ++ ) {
-
-             if ( all_female_words.indexOf( words[ i ].toLowerCase()) >= 0 || femalefirstnames.indexOf(words[i]) >= 0 || temp_female_last_names.indexOf(words[i]) >= 0 || ffnames.indexOf(words[i] ) >= 0) {
-
-                f_count ++;
-                numObservations++;
-                temp_female_words.push(words[i]);
-
-            }
-            
-            
-            if ( all_male_words.indexOf( words[ i ].toLowerCase() ) >= 0 || malefirstnames.indexOf(words[i]) >= 0 || temp_male_last_names.indexOf(words[i]) >= 0 || mfnames.indexOf(words[i] ) >= 0) {
-
-                if (temp_female_words.indexOf(words[i]) === -1) {
-                    m_count ++;
-                    numObservations++;
-                    temp_male_words.push(words[i]);
-                }
-
-            }
-
-        }*/
         
         var hasit = this.parentNode.hasAttribute('passed');
-        //console.log(hasit);
-        if (hasit === true) {
-                var attr = this.parentNode.getAttributeNode("passed").value;
-            
-                if (attr === 'alreadypassed') {
-                        //console.log('yes');
-                        return;
-                }
-          }
         
         var att = document.createAttribute("passed");       // Create a "class" attribute
                 att.value = "alreadypassed";
@@ -538,28 +411,9 @@ function applyContent (windowObject) {
 
         }
         
-        //console.log(words);
-
-        /*var isHeading = false;
-
-        var parentTag = this.parentNode.tagName;
-            if (parentTag === 'H1' || parentTag === 'H2' || parentTag === 'H3' || parentTag === 'H4' || parentTag === 'H5') {
-                isHeading = true;
-            }
-            
-        var parentParentTag = this.parentNode.parentNode.tagName;
-            if (parentParentTag === 'H1' || parentParentTag === 'H2' || parentParentTag === 'H3' || parentParentTag === 'H4' || parentParentTag === 'H5') {
-                isHeading = true;
-            }*/
-        
 
         var allUppercase = false;
 
-        /*if (isHeading === false) {
-            allUppercase = false;
-        }*/
-
-        //if (isHeading === true) {
         if (words.length > 3) {
 
                 allUppercase = true;
@@ -672,8 +526,6 @@ function applyContent (windowObject) {
               // if( intials.indexOf(words[i + 1]) === -1)   
                     temp_male_last_names.push(words[i+1]);
                     console.log('PUSHING LAST NAME (I+1)');
-                console.log(words[i+1]);
-                console.log(words[i]);
               
            }
            
@@ -759,10 +611,6 @@ function applyContent (windowObject) {
                 if (words[i+1] !== 'Is' && words[i+1] !== 'And' && words[i+1] !== 'Or' && words[i+1] !== 'Are' && words[i+1] !== 'Was'){
                     temp_male_last_names.push(words[i+2]);
                 }
-                console.log('PUSHING LAST NAME (I+2)');
-                console.log(words[i+2]);
-                console.log(words[i+1]);
-                console.log(words[i]);
                         
             }
             
@@ -817,19 +665,6 @@ function applyContent (windowObject) {
             }
 
         }
-        
-        //console.log(temp_female_words);
-        //console.log(temp_male_words);
-        
-        //console.log(temp_female_last_names);
-        //console.log(temp_male_last_names);
-        
-        /*if (temp_female_words.length === 0 ){
-            temp_female_words.push('she');
-        }
-        if (temp_male_words.length === 0 ) {
-            temp_male_words.push('he');
-        }*/
 
     if (m_count + f_count != 0) {
     
@@ -869,271 +704,6 @@ function applyContent (windowObject) {
     return f_percent;
   
 };
-
-//var words = [];
-
-/*function googleDocHighlight () {
-
-highlighting = true;
-
-$('.kix-wordhtmlgenerator-word-node').contents().filter( function () {
-    
-    return this.nodeType === 3;
-    
-}).replaceWith (function () {
-
-    var str = this.nodeValue;
-    console.log(str);
-    var temp_words = str.split(/('|:|;|\/|\s+)/);
-    var words = [];
-
-        for ( var i = 0; i < temp_words.length; i ++ ) {
-
-            var current_word = temp_words[i].trim().replace( /[.,\/#!$%\^&\*;:{}=\_`'"?~()]/g, "" );
-
-            if ( current_word != '' ) {
-
-                words[ words.length ] = current_word;
-
-            }
-
-        }
-
-        if ( words.length == 0 ) {
-
-            return str;
-
-        }
-        //console.log(words);
-
-        // Delete surname after Mr, Ms, M, Mme, Lady, Lord
-
-        for ( var i = 0; i < words.length; i ++ ) {
-
-            var w = words[ i ].replace( /[!?,.;`' ]/, '' );
-
-            if ( w === 'Mr' || w === 'Ms' || w === 'M' || w === 'Mme' || w === 'Lady' || w === 'Lord' ) {
-
-                words.splice( i + 1, 1 );
-
-            }
-
-        }
-
-
-        //find last names
-        for (var i = 0; i < words.length - 1; i ++){
-            
-            if (femalefirstnames.indexOf(words[i]) >= 0 && words[i + 1].length > 1){
-                
-                if( lastnames.indexOf(words[i+1]) >= 0 || lastnames_upper.indexOf(words[i + 1]) >= 0)
-               // if( intials.indexOf(words[i + 1]) === -1)
-                     temp_female_last_names.push(words[i+1]);           
-            
-            }
-        }
-        
-         for (var i = 0; i < words.length - 1; i ++){
-            
-            if (malefirstnames.indexOf(words[i]) >= 0 && words[i + 1].length > 1){
-            
-               if( lastnames.indexOf(words[i+1]) >= 0 || lastnames_upper.indexOf(words[i + 1]) >= 0)
-              // if( intials.indexOf(words[i + 1]) === -1)   
-                    temp_male_last_names.push(words[i+1]);
-              
-           }
-            
-        }
-        
-        //account for middle names/initials
-        for (var i = 0; i < words.length - 1; i ++){
-            
-            if (femalefirstnames.indexOf(words[i]) >= 0 && initials.indexOf(words[i+1]) >= 0)
-            
-                temp_female_last_names.push(words[i+2]);
-                         
-            
-        }
-        
-         for (var i = 0; i < words.length - 1; i ++){
-            
-            if (malefirstnames.indexOf(words[i]) >= 0 && initials.indexOf(words[i+1]) >= 0)
-            
-                temp_male_last_names.push(words[i+2]);
-                        
-            
-        }
-        
-        for ( var i = 0; i < words.length; i ++ ) {
-
-            if ( all_male_words.indexOf( words[ i ].toLowerCase() ) >= 0 || malefirstnames.indexOf(words[i]) >= 0 || temp_male_last_names.indexOf(words[i]) >= 0 || mfnames.indexOf(words[i].toUpperCase() ) >= 0) {
-
-                m_count ++;
-                temp_male_words.push(words[i]);
-
-            }
-
-            if ( all_female_words.indexOf( words[ i ].toLowerCase()) >= 0 || femalefirstnames.indexOf(words[i]) >= 0 || temp_female_last_names.indexOf(words[i]) >= 0 || ffnames.indexOf(words[i].toUpperCase() ) >= 0) {
-
-                f_count ++;
-                temp_female_words.push(words[i]);
-
-            }
-
-        }
-        
-
-        var regex_word = new RegExp( "\\b" + Object.keys( word_dict ).join("\\b|\\b") + Object.values( word_dict ).join("\\b|\\b") + temp_female_last_names.join("|") + temp_male_last_names.join("|"), "gi" );
-        var regex_lastname = new RegExp( "\\b" + temp_female_last_names.join("|") + temp_male_last_names.join("|"), "gi" );
-        var regex_name = new RegExp( "\\b" + malefirstnames.join("|") +  femalefirstnames.join("|"), "g" );
-        var regex_trial = new RegExp("\\b" + temp_male_words.join("|\\b") + temp_female_words.join("|\\b"), "g");
-
-        //console.log("HIGHLIGHT FEMALE", temp_female_words);
-        //console.log("HIGHLIGHT MALE", temp_male_words);
-
-        str = str.replace( regex_trial, function ( matched, index, input ) {
-            
-            console.log(matched);
-            //console.log(words);
-            console.log(temp_male_words);
-            //console.log(temp_female_words);
-            console.log("INDEX", index);
-            console.log("INPUT", input);
-            
-            var lastSymbol = input[ index + matched.length ] || '';
-
-            if ( lastSymbol !== '"' && lastSymbol !== '`' && lastSymbol !== "'" && lastSymbol !== '' && lastSymbol !== ',' && lastSymbol !== '.' && lastSymbol !== ')' && lastSymbol !== ';' && lastSymbol !== '!' && lastSymbol !== '?' && lastSymbol !== ' ' ) {
-
-                //console.log('returning matched');
-                return matched;
-
-            }
-            console.log('did not return matched');
-
-            if ( matched === 'Mr' || matched === 'M' || matched === 'Lord' ) {
-
-                // Delete surname after Mr, Ms, M, Mme, Lady, Lord
-                turnMr = true;
-
-            }
-
-          //if ( words.indexOf( matched ) >= 0 && (temp_male_words.indexOf(matched) >= 0) ) {
-          if (temp_male_words.indexOf(matched) >= 0) {
-                console.log("WORDS", words);
-                var i = temp_male_words.indexOf(matched);
-                console.log("MATCHED LENGTH", matched.length);
-                console.log(i);
-                console.log(matched);
-                
-                //this.parentNode.style.backgroundColor = orchid;
-                console.log('TURN PURPLE');
-
-                return '<span class="makeitshe ignore-css replacement" style = "background-color: orchid">' + temp_male_words[i] + '</span>';
-
-            }
-          
-            //if ( words.indexOf( matched ) >= 0 && (temp_female_words.indexOf(matched) >= 0)) {
-            if (temp_female_words.indexOf(matched) >= 0) {
-                var i = temp_female_words.indexOf(matched);
-                console.log(matched);
-
-                //this.parentNode.style.backgroundColor = lightgreen;
-                console.log('TURN GREEN');
-                
-                return '<span class="makeitshe ignore-css replacement" style = "background-color: lightgreen">' + temp_female_words[i] + '</span>';
-
-            } else {
-
-                return matched;
-
-            }
-
-        });
-
-        str = str.replace( regex_name, function ( matched ) {
-            
-            var i = words.indexOf(matched);
-            console.log(matched);
-          
-            function hasNum (myString) {
-              return /\d/.test(myString);
-              }
-
-            if ( turnMr === true && words.length === 1 ) {
-
-                turnMr = false;
-                return matched;
-
-            }
-
-          
-          
-            if ( words.indexOf( matched ) >= 0 && (malefirstnames.indexOf ( matched ) >= 0 || femalefirstnames.indexOf(matched) >= 0) && highlighting === true) {
-              
-                 if (notnames.indexOf (matched) >= 0 ){
-                   
-                   if (prepos.includes( words[i - 1]) || hasNum (words [ i + 1]) )
-                   
-                      return matched;
-                   
-                 }
-              
-                 if ( temp_male_words.indexOf (matched) >= 0) {
-
-                      //this.parentNode.style.backgroundColor = orchid;
-                      
-                      return '<span class="makeitshe ignore-css replacement" style = "background-color: orchid">' + words[i] + '</span>';   
-
-                    } 
-
-              //this.parentNode.style.backgroundColor = lightgreen;
-              
-              return '<span class="makeitshe ignore-css replacement" style = "background-color: lightgreen">' + words[i] + '</span>';
-            }
-
-          else {
-
-                return matched;
-
-            }
-
-        });
-        
-        str = str.replace( regex_lastname, function ( matched ) {
-            
-            var i = words.indexOf(matched);
-            console.log(matched);
-                  
-          
-            if ( words.indexOf( matched ) >= 0 && highlighting === true) {
-
-              
-                 if ( temp_male_last_names.indexOf (matched) >= 0) {
-
-                        //this.parentNode.style.backgroundColor = orchid;
-
-                      return '<span class="makeitshe ignore-css replacement" style = "background-color: orchid">' + words[i] + '<span class="ignore-css tooltiptext">' + matched + '</span>' + '</span>';   
-
-                    } 
-
-                //this.parentNode.style.backgroundColor = lightgreen;
-                
-              return '<span class="makeitshe ignore-css replacement" style = "background-color: lightgreen">' + words[i] + '<span class="ignore-css tooltiptext">' + matched + '</span>' + '</span>';
-            }
-
-          else {
-
-                return matched;
-
-            }
-
-        });
-
-        return str;
-
-    });
-
-}*/
 
 var links_m_count = 0;
 var links_f_count = 0;
@@ -1282,14 +852,14 @@ function applyLinks (windowObject) {
         
         var hasit = this.parentNode.hasAttribute('passed');
         //console.log(hasit);
-        if (hasit === true) {
+        /*if (hasit === true) {
                 var attr = this.parentNode.getAttributeNode("passed").value;
             
                 if (attr === 'alreadypassed') {
                         //console.log('yes');
                         return;
                 }
-          }
+          }*/
         
         var att = document.createAttribute("passed");       // Create a "class" attribute
                 att.value = "alreadypassed";
@@ -1690,92 +1260,8 @@ function highlight () {
         temp_male_last_names = [];
     }
     counter++;
-
-    //$('body').not(".ghost .thumbcaption .infobox vcard td").find("a, p, b, i, div,span, h1, h2, h3, h4, h5, li, label").contents().filter( function () {
         $('body').not(".ghost .thumbcaption .infobox vcard td").find("a, p, b, div, span, h1, h2, h3, h4, h5, label").contents().filter( function () {
 
-
-        //$('body').not(".ghost .thumbcaption .infobox vcard td").find("p").contents().filter( function () {
-
-    //$('body').contents().filter( function () {
-        
-        
-        /*if (this.nodeType === 3) {
-        
-            
-            var parentClass = this.parentNode.getAttribute('class');
-            
-            if (parentClass === 'makeitshe ignore-css replacement' || parentClass === 'ignore-css tooltiptext') {
-                
-                return false;
-                
-            }
-
-            var parentTag = this.parentNode.tagName;
-            if (parentTag === 'H1' || parentTag === 'H2' || parentTag === 'H3' || parentTag === 'H4' || parentTag === 'H5') {
-                return false;
-            }
-            
-            if (this.parentNode.nodeName === "SCRIPT" || this.parentNode.nodeName ==="STYLE" || this.parentNode.nodeName === "IMG"
-            || this.parentNode.nodeName === "LI" || this.parentNode.nodeName === "UL" || this.parentNode.nodeName === "IFRAME"
-            || this.parentNode.nodeName === "NOSCRIPT" || this.parentNode.nodeName === "CITE"){
-            return false;
-        }
-            
-            var title = this.parentNode.getAttribute('data-type');
-            
-            if (title === "Title") {
-                return false;
-            }
-            
-            
-        
-        }
-        else {
-            return false;
-        }
-        
-        var res = [];
-        var res1 = [];
-        if (this.nodeType === 3)
-        {
-        
-            
-            if (this.parentNode.nodeName === "A") {
-                if (this.nodeValue.length < 3) {
-                }
-                else {
-                    return false;
-                }
-            }
-            
-            if (this.parentNode.parentNode.nodeName === "LI" || this.parentNode.parentNode.parentNode.nodeName === "LI"){
-                return false;
-            }
-            
-            var outertag = this.parentNode.outerHTML;
-            outertag = outertag.substring(0, outertag.indexOf('>'));
-            res = outertag.match(strip);
-            
-            var outertag1 = this.parentNode.parentNode.outerHTML;
-            outertag1 = outertag1.substring(0, outertag1.indexOf('>'));
-            res1 = outertag1.match(strip);
-            
-            if (Array.isArray(res1) && res1.length > 0){
-                
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-        
-        if (Array.isArray(res) && res.length > 0) {
-            return false;
-        }
-        
-   
-        return true;*/
         
         var parentClass = this.parentNode.getAttribute('class');
             
@@ -1802,53 +1288,16 @@ function highlight () {
         
         var thisElement = this;
         
-        //console.log(thisElement);
         
         if (!isElementInViewport(thisElement.parentNode))
             return false;
             
             
-        /*var parentTag = this.parentNode.tagName;
-            if (parentTag === 'H1' || parentTag === 'H2' || parentTag === 'H3' || parentTag === 'H4' || parentTag === 'H5') {
-                return false;
-            }
-            
-        var parentParentTag = this.parentNode.parentNode.tagName;
-            if (parentParentTag === 'H1' || parentParentTag === 'H2' || parentParentTag === 'H3' || parentParentTag === 'H4' || parentParentTag === 'H5') {
-                return false;
-            }*/
-        
-            
-        /*if (this.parentNode.nodeName === "SCRIPT" || this.parentNode.nodeName ==="STYLE" || this.parentNode.nodeName === "IMG"
-            || this.parentNode.nodeName === "LI" || this.parentNode.nodeName === "UL" || this.parentNode.nodeName === "IFRAME"
-            || this.parentNode.nodeName === "NOSCRIPT" || this.parentNode.nodeName === "CITE"){
-            return false;
-        }*/
         
         return this.nodeType === 3 && this.id !== 'adContent' && this.id !== 'dockedBanner' && this.id !== 'google_image_div';
 
     }).replaceWith( function () {
 
-        
-         /*var hasit = this.parentNode.hasAttribute('highlighted');
-        //console.log(hasit);
-        if (hasit === true) {
-                var attr = this.parentNode.getAttributeNode("highlighted").value;
-            
-                if (attr === 'alreadyhighlighted') {
-                        //console.log('yes');
-                        return;
-                }
-          }
-        
-        var att = document.createAttribute("highlighted");       // Create a "class" attribute
-                att.value = "alreadyhighlighted";
-        this.parentNode.setAttributeNode(att);*/
-        
-        /*var hasit = this.parentNode.hasAttribute('name');
-        
-        if (hasit === true && (this.parentNode.getAttributeNode("name").value === malehighlight || this.parentNode.getAttributeNode("name").value === femalehighlight))
-            return;*/
         
         var str = this.nodeValue;
         console.log(str);
@@ -1924,29 +1373,9 @@ function highlight () {
             }
 
         }
-        
-        //console.log(words);
-
-        /*var isHeading = false;
-
-        var parentTag = this.parentNode.tagName;
-            if (parentTag === 'H1' || parentTag === 'H2' || parentTag === 'H3' || parentTag === 'H4' || parentTag === 'H5') {
-                isHeading = true;
-            }
-            
-        var parentParentTag = this.parentNode.parentNode.tagName;
-            if (parentParentTag === 'H1' || parentParentTag === 'H2' || parentParentTag === 'H3' || parentParentTag === 'H4' || parentParentTag === 'H5') {
-                isHeading = true;
-            }*/
-        
 
         var allUppercase = false;
 
-        /*if (isHeading === false) {
-            allUppercase = false;
-        }*/
-
-        //if (isHeading === true) {
         if (words.length > 3) {
 
                 allUppercase = true;
@@ -1991,12 +1420,6 @@ function highlight () {
             var next_last = substring_next[substring_next.length - 1];
             var next_first = str.substr(n_next - 1, 1);
             
-            //var nextNextLength = (words[i+2]).length;
-            //regexNextNext = new RegExp('\\' + words[i+2], "g");
-            //var n_next_next = str.search(regexNextNext);
-            //var substring_next_next = str.substr(n_next_next, nextNextLength + 1);
-            //var next_next_last = substring_next_next[substring_next_next.length - 1];
-            
 
             
             var nextWord = words[i+1];
@@ -2005,12 +1428,8 @@ function highlight () {
             f_l_begin = n;
 
             
-            //if (femalefirstnames.indexOf(words[i]) >= 0 && /[A-Z]/.test(nextWord[0]) && nextWord.length > 1){
             if ((femalefirstnames.indexOf(words[i]) >= 0 || words[i] === 'Ms' || words[i] === 'Mrs' || words[i] === 'Miss') && temp_male_last_names.indexOf(words[i+1]) === -1 && words[i-1] !== 'The' && excluded.indexOf(nextWord) === -1 && next_first !== '(' && initials.indexOf(nextWord) === -1 && last !== '.' && last !== '!' && last !== '?' && last !== ',' && last !== ';' && last !== ':' && last !== '/' &&  /[A-Z]/.test(nextWord[0]) && (!(/[A-Z]/.test(nextNextWord[0])) || nextNextWord === undefined || next_last === '.' || next_last === '!' || next_last === '?' || next_last === ',' || next_last === '/' )){
-                
 
-                //if( lastnames.indexOf(words[i+1]) >= 0 || lastnames_upper.indexOf(words[i + 1]) >= 0)
-               // if( intials.indexOf(words[i + 1]) === -1)
                      temp_female_last_names.push(words[i+1]);           
             
             }
@@ -2054,9 +1473,7 @@ function highlight () {
             
             //if (malefirstnames.indexOf(words[i]) >= 0 && /[A-Z]/.test(nextWord[0]) && nextWord.length > 1){
             if ((malefirstnames.indexOf(words[i]) >= 0 || words[i] === 'Mr' || words[i] === 'Mister') && words[i-1] !== 'The' && temp_female_last_names.indexOf(words[i+1]) === -1 && excluded.indexOf(nextWord) === -1 && next_first !== '(' && initials.indexOf(nextWord) === -1 && last !== '.' && last !== '!' && last !== '?' && last !== ',' && last !== ';' && last !== ':' && last !== '/' &&  /[A-Z]/.test(nextWord[0]) && (!(/[A-Z]/.test(nextNextWord[0])) || nextNextWord === undefined || next_last === '.' || next_last === '!' || next_last === '?' || next_last === ',' || next_last === '/' ) && ( words[i-1] !== 'Lake' && words[i+1] !== 'County' && words[i+1] !== 'Lake' && words[i+1] !== 'School' && words[i+1] !== 'High' && words[i+1] !== 'Secondary' && words[i+1] !== 'Primary' && words[i+1] !== 'College' && words[i-1] !== 'Port' && words[i+1] !== 'Mountain' && words[i-2] !== 'city' && words[i-2] !== 'City' && words[i+1] !== 'City' && words[i+1] !== 'Highway' && words[i+1] !== 'River' && words[i+1] !== 'Islands' && words[i+1] !== 'award' && words[i+1] !== 'awards' && words[i+1] !== 'area' && words[i+1] !== 'Park' && words[i+1] !== 'Institute' && words[i+1] !== 'School' && words[i+1] !== 'University' && words[i+1] !== 'Center' && words[i+1] !== 'Building' && words[i+1] !== 'Circle' && words[i+1] !== 'Street' && words[i+1] !== 'Zoo' && words[i-1] !== 'San' && words[i-1] !== 'Saint' && words[i-1] !== 'Santa' && words[i-1] !== 'St' && words[i-1] !== 'Sao' && words[i-1] !== 'New' && words[i-1] !== 'O' && words[i-1] !== 's')) {
-            
-               //if( lastnames.indexOf(words[i+1]) >= 0 || lastnames_upper.indexOf(words[i + 1]) >= 0)
-              // if( intials.indexOf(words[i + 1]) === -1)   
+
                     temp_male_last_names.push(words[i+1]);
                     console.log('PUSHING LAST NAME (I+1)');
                 console.log(words[i+1]);
@@ -2082,14 +1499,12 @@ function highlight () {
         for (var i = 0; i < words.length - 2; i ++){
             
              var thisLength = words[i].length;
-            //var regexThis = new RegExp('\\' + words[i], "g");
-            //var n = str.search(regexThis);
+
             var n = str.indexOf(words[i], f_m_begin);
             var substring = str.substr(n, thisLength + 1);
             var last = substring[substring.length - 1];
             
             var nextLength = (words[i+1]).length;
-            //regexNext = new RegExp('\\' + words[i+1], "g");
             var n_next = str.indexOf(words[i+1], f_m_begin);
             var substring_next = str.substr(n_next, nextLength + 1);
             var next_last = substring_next[substring_next.length - 1];
@@ -2104,7 +1519,6 @@ function highlight () {
             
             f_m_begin = n_next;
             
-            //if (femalefirstnames.indexOf(words[i]) >= 0 && /[A-Z]/.test(nextWord[0]) && initials.indexOf(nextWord) >= 0 && /[A-Z]/.test(nextNextWord[0]) )
             if (femalefirstnames.indexOf(words[i]) >= 0 && /[A-Z]/.test(nextWord[0]) && next_first !== '«' && words[i-1] !== 'The' && last !== '/' && last !== ':' && /[A-Z]/.test(nextNextWord[0]) && !(/[A-Z]/.test(nextNextWord[1])) && (next_last !== '.' && next_last !== '!' && next_last !== '?' && next_last !== ',' && next_last !== '/' && next_last !== ':' && next_last !== ';' || initials.indexOf(nextWord) >=0))
             {
                 console.log("NEXT FIRST", next_first);
@@ -2163,31 +1577,6 @@ function highlight () {
         var m_last_count = 0;
         var f_last_count = 0;
         
-        /*for (var i = 0; i < namesInBoth.length; i++) {
-        
-            m_last_count = 0;
-            f_last_count = 0;
-            for (var j = 0; j < temp_female_last_names; j++) {
-                if (temp_female_last_names[j] === namesInBoth[i])
-                    f_last_count++;
-            }
-            for (var k = 0; k < temp_male_last_names; k++) {
-                if (temp_male_last_names[k] === namesInBoth[i])
-                    m_last_count++;
-            }
-            
-            if (f_last_count > m_last_count) {
-                temp_male_last_names = temp_male_last_names.filter (x => x !== namesInBoth[i]);
-        
-            }
-            else if ( m_last_count > f_last_count ) {
-                temp_female_last_names = temp_female_last_names.filter (x => x !== namesInBoth[i]);
-            }
-            
-        }*/
-        
-
-        
          for ( var i = 0; i < words.length; i ++ ) {
 
             if ( typeof words[i] !== "undefined" && all_female_words.indexOf( words[ i ].toLowerCase()) >= 0 || femalefirstnames.indexOf(words[i]) >= 0 || temp_female_last_names.indexOf(words[i]) >= 0 || ffnames.indexOf(words[i].toUpperCase() ) >= 0 && excluded.indexOf(words[i]) === -1) {
@@ -2226,44 +1615,19 @@ function highlight () {
 
         }
         
-        //console.log(temp_female_words);
-        //console.log(temp_male_words);
-        
-        console.log(temp_female_last_names);
-        console.log(temp_male_last_names);
-        
-        console.log(temp_female_words);
-        console.log(temp_male_words);
-        
-        /*if (temp_female_words.length === 0 ){
-            temp_female_words.push('she');
-        }
-        if (temp_male_words.length === 0 ) {
-            temp_male_words.push('he');
-        }*/
         
         //var regex_word = new RegExp( "\\b" + Object.keys( word_dict ).join("\\b|\\b") + Object.values( word_dict ).join("\\b|\\b") + temp_female_last_names.join("|") + temp_male_last_names.join("|"), "gi" );
         var regex_word = new RegExp( "\\b" + Object.keys( word_dict ).join("\\b|\\b") + Object.values( word_dict ).join("\\b|\\b"), "gi");
         var regex_lastname = new RegExp( "\\b" + temp_female_last_names.join("|\\b") + temp_male_last_names.join("|"), "gi" );
         var regex_name = new RegExp( "\\b" + malefirstnames.join("|\\b") +  femalefirstnames.join("|"), "g" );
         var regex_trial = new RegExp("\\b" + temp_female_words.join("\\b|\\b") + "|" + "\\b" + temp_male_words.join("\\b|\\b"), "g");
-        //console.log(regex_trial);
-        
-  
-        
-        //console.log(str);
-        
-        //for (var i = 0; i <= words.length; i++) {
-         //   words[i] = words[i].replace("'s", "");
-        //}
-        //str = str.replace("'s", "");
+
         var start = 0;
 
         str = str.replace( regex_trial, function ( matched, index, input ) {
             
             console.log(matched);
-            //console.log(matched+"'s");
-            //console.log(parentClass);
+
             var lastSymbol = input[ index + matched.length ] || '';
             
             if (lastSymbol.charCodeAt(0) === 8217) {
@@ -2284,16 +1648,9 @@ function highlight () {
                 turnMr = true;
 
             }
-           
-          /*if (matched === "Allen") {
-            if (words.indexOf(matched) >= 0)
-                console.log('Allen matches words');
-            if(temp_male_words.indexOf(matched) >= 0)
-                console.log('Allen matches temp male words');
-        }*/
             
 
-          if ( words.indexOf( matched ) >= 0  && (temp_male_words.indexOf(matched) >= 0) && highlighting == true && excluded.indexOf(matched) === -1 ) {
+          if ( words.indexOf( matched ) >= 0  && (temp_male_words.indexOf(matched) >= 0) && highlighting === true && excluded.indexOf(matched) === -1 ) {
                 var i = words.indexOf(matched, start);
                 start = i + 1;
                 console.log("Previous word", words[i-1]);
@@ -2345,11 +1702,11 @@ function highlight () {
                 else if (i !== 0 && (words[i - 1] === 'Ms' || words[i - 1] === 'Mrs' || words[i - 1] === 'Miss' || femalefirstnames.indexOf(words[i-1]) >= 0 ))
                     return '<span class="makeitshe ignore-css replacement" name="femalehighlight">' + matched +  '</span><span class="ignore-css tooltiptext">' + matched +  '</span></span>';
                 else
-                    return '<span class="ignore-css replacement" name="malehighlight">' + matched + '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
+                    return '<span class="makeitshe ignore-css replacement" name="malehighlight">' + matched + '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
 
             }
           
-            else if (words.indexOf( matched ) >= 0 && (temp_female_words.indexOf(matched) >= 0) && highlighting == true && excluded.indexOf(matched) === -1 ) {
+            else if (words.indexOf( matched ) >= 0 && (temp_female_words.indexOf(matched) >= 0) && highlighting === true && excluded.indexOf(matched) === -1 ) {
             //if ( words.indexOf( matched ) >= 0 && (all_female_words.indexOf(matched) >= 0) && highlighting === true ) {
                 var i = words.indexOf(matched, start);
                 console.log(matched);
@@ -2398,7 +1755,7 @@ function highlight () {
                     return '<span class="makeitshe ignore-css replacement" name="malehighlight">' + matched +  '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
                 else
                     //return matched;
-                    return '<span class="ignore-css replacement" name="femalehighlight">' + matched + '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
+                    return '<span class="makeitshe ignore-css replacement" name="femalehighlight">' + matched + '</span><span class="ignore-css tooltiptext">' + matched + '</span></span>';
 
             }
             
@@ -2409,78 +1766,6 @@ function highlight () {
             }
 
         });
-
-        /*str = str.replace( regex_name, function ( matched ) {
-            
-            var i = words.indexOf(matched);
-          
-            function hasNum (myString) {
-              return /\d/.test(myString);
-              }
-
-            if ( turnMr === true && words.length === 1 ) {
-
-                turnMr = false;
-                return matched;
-
-            }
-
-          
-          
-            if ( words.indexOf( matched ) >= 0 && (malefirstnames.indexOf ( matched ) >= 0 || temp_male_words.indexOf(matched) >= 0 || femalefirstnames.indexOf(matched) >= 0 || temp_female_words.indexOf(matched) >= 0) && highlighting === true) {
-              
-                 /*if (notnames.indexOf (matched) >= 0 ){
-                   
-                   if (prepos.includes( words[i - 1]) || hasNum (words [ i + 1]) )
-                   
-                      return matched;
-                   
-                 }
-              
-                 if ( temp_male_words.indexOf (matched) >= 0) {
-
-                      return '<span class="makeitshe ignore-css replacement" name="malehighlight">' + words[i] + '</span>';//'<span class="ignore-css tooltiptext">' + matched + '</span></span>';   
-
-                    } 
-
-
-              return '<span class="makeitshe ignore-css replacement" name="femalehighlight">' + words[i] + '</span>';//'<span class="ignore-css tooltiptext">' + matched + '</span></span>';
-            }
-
-          else {
-
-                return matched;
-
-            }
-
-        });
-        
-        str = str.replace( regex_lastname, function ( matched ) {
-            
-            var i = words.indexOf(matched);
-                  
-          
-            if ( words.indexOf( matched ) >= 0 && highlighting === true) {
-
-              
-                 if ( temp_male_last_names.indexOf (matched) >= 0) {
-
-                      return '<span class="makeitshe ignore-css replacement" name="malehighlight">' + words[i] + '</span>';//'<span class="ignore-css tooltiptext">' + matched + '</span></span>';   
-
-                    } 
-
-
-              return '<span class="makeitshe ignore-css replacement" name="femalehighlight">' + words[i] + '</span>';//'<span class="ignore-css tooltiptext">' + matched + '</span></span>';
-            }
-
-          else {
-
-                return matched;
-
-            }
-
-        });*/
-        
 
         return str;
 
@@ -2516,14 +1801,7 @@ function getLinks () {
         var hostname = window.location.host;
         var slashes = "//";
         var link = "";
-        //if (this.getAttribute('href').endsWith('.html')) {
-            
-            //link = protocol + slashes + hostname + this.getAttribute('href');
-            //links.push(link);
-            
-            //var adArray = [];
 
-                //links.push(this.getAttribute('href'));
                 if (links.indexOf(this.getAttribute('href')) === -1) {
                     links.push(this.getAttribute('href'));
                 }
@@ -2561,10 +1839,6 @@ function getLinks () {
                 
                 }*/
                 if (fMajority >= 50) {
-                    /*var att = document.createAttribute("style");
-                    att.value = "border:solid green 2px;";
-                    currentElement.parentNode.setAttributeNode(att);
-                    counts++;*/
                     
                     var att = document.createAttribute("name");
                     att.value = "femaleframe";
@@ -2576,10 +1850,6 @@ function getLinks () {
                     
                 }
                 else if (fMajority < 50) {
-                    /*var att = document.createAttribute("style");
-                    att.value = "border:solid purple 2px;";
-                    currentElement.parentNode.setAttributeNode(att);
-                    counts++;*/
                     
                     var att = document.createAttribute("name");
                     att.value = "maleframe";
@@ -2664,35 +1934,28 @@ function onVisibilityChange(el, callback) {
 
 
 function showHighlighting() {
-    console.log('showing highlighting');
-    var malehighlight = $('[name=malehighlight]');
-    console.log(malehighlight);
-    for (var i = 0; i < malehighlight.length; i++) {
-        //if (isElementInViewport(malehighlight[i])){
-            malehighlight[i].style.backgroundColor = 'lightskyblue';
-      //}
-    }
-    var femalehighlight = $('[name=femalehighlight]');
-    console.log(femalehighlight);
-    for (var i = 0; i < femalehighlight.length; i++) {
-        //if (isElementInViewport(femalehighlight[i])){
-            femalehighlight[i].style.backgroundColor = 'lightgreen';
+    if (highlighting == true) {
+        console.log('showing highlighting');
+        var malehighlight = $('[name=malehighlight]');
+        console.log(malehighlight);
+        console.log("yes");
+        for (var i = 0; i < malehighlight.length; i++) {
+            //if (isElementInViewport(malehighlight[i])){
+                malehighlight[i].style.backgroundColor = 'lightskyblue';
         //}
+        }
+        var femalehighlight = $('[name=femalehighlight]');
+        console.log(femalehighlight);
+        for (var i = 0; i < femalehighlight.length; i++) {
+            //if (isElementInViewport(femalehighlight[i])){
+                femalehighlight[i].style.backgroundColor = 'lightgreen';
+            //}
+        }
     }
 }
 
 function hideHighlighting() {
     console.log('hiding highlighting');
-    var malehighlight = $('[name=malehighlight]');
-    //console.log(maleframe);
-    for (var i = 0; i < malehighlight.length; i++) {
-      malehighlight[i].style.backgroundColor = 'none';
-    }
-    var femalehighlight = $('[name=femalehighlight]');
-    //console.log(femaleframe);
-    for (var i = 0; i < femalehighlight.length; i++) {
-      femalehighlight[i].style.backgroundColor = 'none';
-    }
 }
 
 //
@@ -2773,14 +2036,6 @@ chrome.runtime.onMessage.addListener( function ( msg, sender, sendResponse ) {
 
     }
 
-});
-
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.highlight === true) {
-        highlightText(document.body);
-        sendResponse({messageStatus: "received"});
-    }
 });
 
 
@@ -2921,66 +2176,39 @@ chrome.runtime.onMessage.addListener(
     console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the extension");
-    if (request.greeting == "highlighting"){
-        alert ("Green Frames: The article has a majority of female words\nBlue Frames: The article has a majority of male words\n\nTo remove the frames from the page, just uncheck the highlight button");
+        if (request.greeting == "highlighting"){
+            alert ("Green Frames: The article has a majority of female words\nBlue Frames: The article has a majority of male words\n\nTo remove the frames from the page, just uncheck the highlight button");
 
-      highlighting = true;
-      highlight();
-      //getLinks();
-      showHighlighting();
-      showFrames();
-      //hideTooltip();
-      //console.log('removing highlights');
-      $(window).scroll(function () {
-        //applyContent(document.body);
-        highlight();
-        showHighlighting();
-        //getLinks();
-        showFrames();
-      });
-      
-      if (window.location.href.includes('docs.google')) {
-        googleDocHighlight();
-    }
-      
-      sendResponse({farewell: "goodbye"});
-    }
+            highlighting = true;
+            highlight();
+            //getLinks();
+            //showHighlighting();
+            showFrames();
+            //hideTooltip();
+            //console.log('removing highlights');
+            $(window).scroll(function () {
+                //applyContent(document.body);
+                highlight();
+                showHighlighting();
+                //getLinks();
+                showFrames();
+            });
+        
+            sendResponse({farewell: "goodbye"});
+        }
+
+        if (request.greeting == "nohighlighting"){
+            alert("yes")
+            //highlighting = false;
+            //highlight();
+            $(window).unbind('scroll');
+            showHighlighting();
+            //hideHighlighting();
+            hideFrames();
+            console.log('hiding highlighting');
+            sendResponse({farewell: "goodbye"});
+        }
   });
-
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "nohighlighting"){
-        alert("yes")
-      highlighting = true;
-      //highlight();
-      $(window).unbind('scroll');
-      hideHighlighting();
-      hideFrames();
-      console.log('hiding highlighting');
-      sendResponse({farewell: "goodbye"});
-    }
-  });
-  
-  chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "removehighlight"){
-      highlighting = false;
-      highlight();
-      $(window).unbind('scroll');
-      hideHighlighting();
-      hideFrames();
-      console.log('hiding highlighting');
-      sendResponse({farewell: "stop"});
-    }
-  });
-
-
 
 
  var message_suggestions = {
