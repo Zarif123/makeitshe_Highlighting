@@ -1774,6 +1774,19 @@ function highlight () {
 
 };
 
+function highlightNew() {
+    for (let i = 0; i < temp_female_words.length; i++) {
+        let regex = new RegExp(temp_female_words[i], "g");
+        document.body.innerHTML = document.body.innerHTML.replace(regex, 
+            `<span class='fem-highlight'>${temp_female_words[i]}</span>`);
+    }
+    for (let i = 0; i < temp_male_words.length; i++) {
+        let regex = new RegExp(temp_male_words[i], "g");
+        document.body.innerHTML = document.body.innerHTML.replace(regex, 
+            `<span class='male-highlight'>${temp_male_words[i]}</span>`);
+    }
+};
+
 var number = 0;
 var links = [];
 
@@ -2180,7 +2193,8 @@ chrome.runtime.onMessage.addListener(
             alert ("Green Frames: The article has a majority of female words\nBlue Frames: The article has a majority of male words\n\nTo remove the frames from the page, just uncheck the highlight button");
 
             highlighting = true;
-            highlight();
+            //highlight();
+            highlightNew();
             //getLinks();
             //showHighlighting();
             showFrames();
@@ -2188,10 +2202,10 @@ chrome.runtime.onMessage.addListener(
             //console.log('removing highlights');
             $(window).scroll(function () {
                 //applyContent(document.body);
-                highlight();
-                showHighlighting();
+                //highlight();
+                //showHighlighting();
                 //getLinks();
-                showFrames();
+                //showFrames();
             });
         
             sendResponse({farewell: "goodbye"});
@@ -2202,9 +2216,9 @@ chrome.runtime.onMessage.addListener(
             //highlighting = false;
             //highlight();
             $(window).unbind('scroll');
-            showHighlighting();
+            //showHighlighting();
             //hideHighlighting();
-            hideFrames();
+            //hideFrames();
             console.log('hiding highlighting');
             sendResponse({farewell: "goodbye"});
         }
