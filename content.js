@@ -1774,16 +1774,28 @@ function highlight () {
 
 };
 
+
 function highlightNew() {
     for (let i = 0; i < temp_female_words.length; i++) {
-        let regex = new RegExp(temp_female_words[i], "g");
+        let regex = new RegExp('\\b(' + temp_female_words[i] + ')\\b', "g");
         document.body.innerHTML = document.body.innerHTML.replace(regex, 
             `<span class='fem-highlight'>${temp_female_words[i]}</span>`);
     }
     for (let i = 0; i < temp_male_words.length; i++) {
-        let regex = new RegExp(temp_male_words[i], "g");
+        let regex = new RegExp('\\b(' + temp_male_words[i] + ')\\b', "g");
         document.body.innerHTML = document.body.innerHTML.replace(regex, 
             `<span class='male-highlight'>${temp_male_words[i]}</span>`);
+    }
+};
+
+function unHighlight() {
+    var femalehighlight = $('[class=fem-highlight]');
+    var malehighlight = $('[class=male-highlight]');
+    for (var i = 0; i < femalehighlight.length; i++) {
+            femalehighlight[i].className = femalehighlight[i].className.replace(/fem-highlight/, 'no-highlight');
+    }
+    for (var i = 0; i < malehighlight.length; i++) {
+        malehighlight[i].className = malehighlight[i].className.replace(/male-highlight/, 'no-highlight');
     }
 };
 
@@ -2212,9 +2224,9 @@ chrome.runtime.onMessage.addListener(
         }
 
         if (request.greeting == "nohighlighting"){
-            alert("yes")
+            alert("Unhighlighting")
             //highlighting = false;
-            //highlight();
+            unHighlight();
             $(window).unbind('scroll');
             //showHighlighting();
             //hideHighlighting();

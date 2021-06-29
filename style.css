@@ -56,3 +56,7 @@
 .fem-highlight {
     background-color: lightgreen;
 }
+
+.no-highlight {
+    background-color: none;
+}
