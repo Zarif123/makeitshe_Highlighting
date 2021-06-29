@@ -1774,9 +1774,34 @@ function highlight () {
 
 };
 
-
+var highlightFlag = false;
 function highlightNew() {
-    for (let i = 0; i < temp_female_words.length; i++) {
+    if (!highlightFlag) {
+        let fem_words = new Set(temp_female_words);
+        fem_words.forEach(function(word) {
+            let regex = new RegExp('\\b(' + word + ')\\b', "g");
+            document.body.innerHTML = document.body.innerHTML.replace(regex, 
+                `<span class='fem-highlight'>${word}</span>`);
+        });
+        let male_words = new Set(temp_male_words);
+        male_words.forEach(function(word) {
+            let regex = new RegExp('\\b(' + word + ')\\b', "g");
+            document.body.innerHTML = document.body.innerHTML.replace(regex, 
+                `<span class='male-highlight'>${word}</span>`);
+        });
+    }
+    else {
+        var femalehighlight = $('[class=no-fem-highlight]');
+        var malehighlight = $('[class=no-male-highlight]');
+        for (var i = 0; i < femalehighlight.length; i++) {
+                femalehighlight[i].className = femalehighlight[i].className.replace(/no-fem-highlight/, 'fem-highlight');
+        }
+        for (var i = 0; i < malehighlight.length; i++) {
+            malehighlight[i].className = malehighlight[i].className.replace(/no-male-highlight/, 'male-highlight');
+        }
+    }
+    /*
+    for (let i = 0; i < fem_words.length; i++) {
         let regex = new RegExp('\\b(' + temp_female_words[i] + ')\\b', "g");
         document.body.innerHTML = document.body.innerHTML.replace(regex, 
             `<span class='fem-highlight'>${temp_female_words[i]}</span>`);
@@ -1785,17 +1810,17 @@ function highlightNew() {
         let regex = new RegExp('\\b(' + temp_male_words[i] + ')\\b', "g");
         document.body.innerHTML = document.body.innerHTML.replace(regex, 
             `<span class='male-highlight'>${temp_male_words[i]}</span>`);
-    }
+    }*/
 };
 
 function unHighlight() {
     var femalehighlight = $('[class=fem-highlight]');
     var malehighlight = $('[class=male-highlight]');
     for (var i = 0; i < femalehighlight.length; i++) {
-            femalehighlight[i].className = femalehighlight[i].className.replace(/fem-highlight/, 'no-highlight');
+            femalehighlight[i].className = femalehighlight[i].className.replace(/fem-highlight/, 'no-fem-highlight');
     }
     for (var i = 0; i < malehighlight.length; i++) {
-        malehighlight[i].className = malehighlight[i].className.replace(/male-highlight/, 'no-highlight');
+        malehighlight[i].className = malehighlight[i].className.replace(/male-highlight/, 'no-male-highlight');
     }
 };
 
@@ -2226,6 +2251,7 @@ chrome.runtime.onMessage.addListener(
         if (request.greeting == "nohighlighting"){
             alert("Unhighlighting")
             //highlighting = false;
+            highlightFlag = true;
             unHighlight();
             $(window).unbind('scroll');
             //showHighlighting();
