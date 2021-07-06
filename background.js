@@ -15,7 +15,7 @@ chrome.tabs.onActivated.addListener( function ( tab ) {
         siteStateList = JSON.parse( localStorage.getItem('siteStateList') ) || {};
         activeTabDomain = tabInfo.url.split('//')[1].split('/')[0];
         localStorage.setItem( 'activeDomain', activeTabDomain );
-        chrome.extension.sendMessage({ event: 'changedDomain', domain: activeTabDomain });
+        chrome.runtime.sendMessage({ event: 'changedDomain', domain: activeTabDomain });
         var activated = siteStateList[ activeTabDomain ] === true;
 
         if ( activated ) {
@@ -50,7 +50,7 @@ chrome.tabs.onUpdated.addListener( function ( tabId ) {
         siteStateList = JSON.parse( localStorage.getItem('siteStateList') ) || {};
         activeTabDomain = tabInfo.url.split('//')[1].split('/')[0];
         localStorage.setItem( 'activeDomain', activeTabDomain );
-        chrome.extension.sendMessage({ event: 'changedDomain', domain: activeTabDomain });
+        chrome.runtime.sendMessage({ event: 'changedDomain', domain: activeTabDomain });
         var activated = siteStateList[ activeTabDomain ] === true;
 
         if ( activated ) {
