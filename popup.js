@@ -665,7 +665,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 
             chrome.tabs.create({
                 active: true,
-                url: chrome.extension.getURL('usertrends.html')
+                url: chrome.runtime.getURL('usertrends.html')
             });
         
         });
