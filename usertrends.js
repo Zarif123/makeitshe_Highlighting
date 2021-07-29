@@ -1397,7 +1397,7 @@ function getLinks() {
               //console.log(url);
               var a = document.createElement('a');
               document.body.appendChild(a);
-              a.outerHTML = "<a class='removable' style=display:none href=" + url + ">";
+              a.textcontent = "<a class='removable' style=display:none href=" + url + ">";
               
             }
             
@@ -3638,7 +3638,7 @@ if (index === 9) {
                 var timeVisited = value.lastVisitTime;
                 var a = document.createElement('a');
                 document.body.appendChild(a);
-                a.outerHTML = "<a class="+linkstring+" style=display:none href=" + url + ">";
+                a.textContent = "<a class="+linkstring+" style=display:none href=" + url + ">";
                 console.log("HISTORY LENGTH", historyItems.length);
                 historylength = historyItems.length;
            
@@ -4395,7 +4395,7 @@ function doSomething(currentElement, callback){
                 var timeVisited = value.lastVisitTime;
                 var a = document.createElement('a');
                 document.body.appendChild(a);
-                a.outerHTML = "<a class="+linkstring+" style=display:none href=" + url + ">";
+                a.textContent = "<a class="+linkstring+" style=display:none href=" + url + ">";
                 console.log("HISTORY LENGTH", historyItems.length);
                 historylength = historyItems.length;
            
@@ -5550,7 +5550,7 @@ if (index === 19) {
                 var timeVisited = value.lastVisitTime;
                 var a = document.createElement('a');
                 document.body.appendChild(a);
-                a.outerHTML = "<a class="+linkstring+" style=display:none href=" + url + ">";
+                a.textContent = "<a class="+linkstring+" style=display:none href=" + url + ">";
                 console.log("HISTORY LENGTH", historyItems.length);
                 historylength = historyItems.length;
            

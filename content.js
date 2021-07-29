@@ -1838,14 +1838,20 @@ function highlightNew() {
         let fem_words = new Set(temp_female_words);
         fem_words.forEach(function(word) {
             let regex = new RegExp('\\b(' + word + ')\\b', "g");
-            document.body.innerHTML = document.body.innerHTML.replace(regex, 
-                `<span class='fem-highlight'>${word}</span>`);
+            $("body").children().each(function () {
+                $(this).html($(this).html().replace(regex, `<span class='fem-highlight'>${word}</span>`));
+            });
+            /*document.body.innerHTML = document.body.innerHTML.replace(regex, 
+                `<span class='fem-highlight'>${word}</span>`);*/
         });
         let male_words = new Set(temp_male_words);
         male_words.forEach(function(word) {
             let regex = new RegExp('\\b(' + word + ')\\b', "g");
-            document.body.innerHTML = document.body.innerHTML.replace(regex, 
-                `<span class='male-highlight'>${word}</span>`);
+            $("body").children().each(function () {
+                $(this).html($(this).html().replace(regex, `<span class='male-highlight'>${word}</span>`));
+            });
+            /*document.body.innerHTML = document.body.innerHTML.replace(regex, 
+                `<span class='male-highlight'>${word}</span>`);*/
         });
     }
     else {
@@ -2136,7 +2142,7 @@ chrome.runtime.onMessage.addListener( function ( msg, sender, sendResponse ) {
         $('.makeitshe').each( function ( index, el ) {
 
             var original_html = $( '.tooltiptext', $( this ) ).html();
-            el.outerHTML = original_html;
+            el.textContent = original_html;
 
         });
 
@@ -2181,9 +2187,9 @@ function autocomplete(inp, arr) {
 
               b = document.createElement("DIV");
               /*make the matching letters bold:*/
-              b.innerHTML = "<strong>" + valueSuggestion + "</strong>";
+              b.textContent = "<strong>" + valueSuggestion + "</strong>";
               /*insert a input field that will hold the current array item's value:*/
-              b.innerHTML += "<input type='hidden' value='" + valueSuggestion + "'>";
+              b.textContent += "<input type='hidden' value='" + valueSuggestion + "'>";
               /*execute a function when someone clicks on the item value (DIV element):*/
               b.addEventListener("click", function(e) {
                   /*insert the value for the autocomplete text field:*/
